@@ -19,6 +19,8 @@
 		502F5C8B28225E14004062CC /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502F5C8A28225E14004062CC /* Contact.swift */; };
 		502F5C8D28225E73004062CC /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 502F5C8C28225E73004062CC /* Contact.m */; };
 		502F5C8F28226040004062CC /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502F5C8E28226040004062CC /* Contacts.framework */; };
+		509A5DA62823AAE8009C0990 /* CreateContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A5DA52823AAE8009C0990 /* CreateContact.swift */; };
+		509A5DA82823AAFE009C0990 /* CreateContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 509A5DA72823AAFE009C0990 /* CreateContact.m */; };
 		7699B88040F8A987B510C191 /* libPods-nativebridge-nativebridgeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-nativebridge-nativebridgeTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -53,6 +55,8 @@
 		502F5C8A28225E14004062CC /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		502F5C8C28225E73004062CC /* Contact.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		502F5C8E28226040004062CC /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		509A5DA52823AAE8009C0990 /* CreateContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContact.swift; sourceTree = "<group>"; };
+		509A5DA72823AAFE009C0990 /* CreateContact.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateContact.m; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-nativebridge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nativebridge.release.xcconfig"; path = "Target Support Files/Pods-nativebridge/Pods-nativebridge.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-nativebridge-nativebridgeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nativebridge-nativebridgeTests.debug.xcconfig"; path = "Target Support Files/Pods-nativebridge-nativebridgeTests/Pods-nativebridge-nativebridgeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-nativebridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-nativebridge.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +116,8 @@
 				502F5C8828224E94004062CC /* Counter.m */,
 				502F5C8A28225E14004062CC /* Contact.swift */,
 				502F5C8C28225E73004062CC /* Contact.m */,
+				509A5DA52823AAE8009C0990 /* CreateContact.swift */,
+				509A5DA72823AAFE009C0990 /* CreateContact.m */,
 			);
 			name = nativebridge;
 			sourceTree = "<group>";
@@ -434,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				509A5DA82823AAFE009C0990 /* CreateContact.m in Sources */,
 				502F5C8D28225E73004062CC /* Contact.m in Sources */,
 				502F5C8728224E45004062CC /* Counter.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
@@ -441,6 +448,7 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				502F5C8928224E94004062CC /* Counter.m in Sources */,
 				502F5C8528224757004062CC /* HelloWorld.m in Sources */,
+				509A5DA62823AAE8009C0990 /* CreateContact.swift in Sources */,
 				502F5C8B28225E14004062CC /* Contact.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
