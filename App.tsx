@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
@@ -17,10 +18,14 @@ const App = () => {
   useEffect(() => {
     console.log(NativeModules.Contact.getConstants());
 
-    NativeModules.Contact.getContact((value: any) => {
-      setDetails(value);
-      console.log('data is', value);
-    });
+    Platform.OS == 'ios'
+      ? NativeModules.Contact.getContact((value: any) => {
+          setDetails(value);
+          console.log('data is', value);
+        })
+      : NativeModules.Contact.getContact()
+          .then(e => setDetails(e))
+          .catch(e => console.error(e));
   }, []);
   return (
     <SafeAreaView
