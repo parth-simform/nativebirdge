@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, View, Text, NativeModules} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  NativeModules,
+  Platform,
+} from 'react-native';
 import DetailInput from '../../component/Input';
 import {styles} from './style';
 
@@ -21,6 +27,11 @@ const Home = (props: any) => {
 
       props.navigation.push('List');
     } catch (error) {}
+  };
+  const onSubmitAndroid = async () => {
+    NativeModules.Contact.createContact(name, lName, number, email)
+      .then(() => props.navigation.push('List'))
+      .catch((e: string) => console.log(e));
   };
   return (
     <View style={styles.container}>
@@ -51,7 +62,9 @@ const Home = (props: any) => {
         placeholder={'Enter Email'}
       />
 
-      <TouchableOpacity style={styles.btn} onPress={onSubmit}>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={Platform.OS === 'ios' ? onSubmit : onSubmitAndroid}>
         <Text style={styles.txt}>Submit Data</Text>
       </TouchableOpacity>
     </View>

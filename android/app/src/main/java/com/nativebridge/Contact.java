@@ -2,6 +2,8 @@ package com.nativebridge;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -36,14 +38,14 @@ public class Contact extends ReactContextBaseJavaModule {
         reactContext = context;
     }
 
-  @ReactMethod
+    @ReactMethod
     public void GetDetails() {
 
     }
 
 
     @ReactMethod
-    public void getContact( Promise promise) {
+    public void getContact(Promise promise) {
         //Initialize uri
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         //Sort by ascending
@@ -52,7 +54,7 @@ public class Contact extends ReactContextBaseJavaModule {
         Cursor cursor = getReactApplicationContext().getContentResolver().query(
                 uri, null, null, null, sort
         );
-
+        arrayList.clear();
         //check condition
         if (cursor.getCount() == 0) {
             String e = " getting error";
@@ -77,7 +79,6 @@ public class Contact extends ReactContextBaseJavaModule {
                             ContactsContract.CommonDataKinds.Phone.NUMBER
                     )));
                     ContactModel model = new ContactModel();
-                   
                     model.setName(name);
                     model.setNumber(number);
                     arrayList.add(model);
@@ -87,7 +88,6 @@ public class Contact extends ReactContextBaseJavaModule {
 
             try {
                 WritableArray batchResults = new WritableNativeArray();
-
                 for (ContactModel details : arrayList) {
                     WritableMap resultData = new WritableNativeMap();
                     resultData.putString("name", details.name);
@@ -95,7 +95,6 @@ public class Contact extends ReactContextBaseJavaModule {
                     batchResults.pushMap(resultData);
                 }
                 Log.d("details", String.valueOf(batchResults));
-//                callback.invoke(batchResults);
                 promise.resolve(batchResults);
             } catch (Exception e) {
                 promise.reject(e);
@@ -105,6 +104,64 @@ public class Contact extends ReactContextBaseJavaModule {
 
             cursor.close();
 
+        }
+    }
+
+
+    @ReactMethod
+    public void createContact(String given_name, String name, String mobile, String email, Promise promise) {
+        Log.d("given_name", given_name);
+        Log.d("name", name);
+        Log.d("mobile", mobile);
+        Log.d("email", email);
+        String home = "Home";
+        ArrayList<ContentProviderOperation> contact = new ArrayList<ContentProviderOperation>();
+        contact.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+
+        // first and last names
+        contact.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, given_name)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, name)
+                .build());
+
+        // Contact No Mobile
+        contact.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, mobile)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                .build());
+
+        // Contact Home
+        contact.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, home)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_HOME)
+                .build());
+
+        // Email    `
+        contact.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Email.DATA, email)
+                .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
+                .build());
+
+
+        try {
+            Log.d("contact-contact", String.valueOf(contact));
+            ContentProviderResult[] results = getReactApplicationContext().getContentResolver().applyBatch(ContactsContract.AUTHORITY, contact);
+            Log.d("results", String.valueOf(results));
+            promise.resolve("success");
+        } catch (Exception e) {
+            promise.reject("401", e);
+            e.printStackTrace();
         }
     }
 

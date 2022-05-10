@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {NativeModules, Text, View} from 'react-native';
+import {NativeModules, Platform, Text, View} from 'react-native';
 import {styles} from './style';
 interface Contact {
   name: string;
@@ -9,9 +9,13 @@ interface Contact {
 const List = () => {
   const [details, setDetails] = useState<Contact | []>([]);
   useEffect(() => {
-    NativeModules.Contact.getContact((value: any) => {
-      setDetails(value);
-    });
+    Platform.OS == 'android'
+      ? NativeModules.Contact.getContact().then((value: any) => {
+          setDetails(value);
+        })
+      : NativeModules.Contact.getContact((value: any) => {
+          setDetails(value);
+        });
   }, []);
   return (
     <View style={styles.container}>
